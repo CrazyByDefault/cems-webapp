@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { Layout } from "antd";
-import PageHeader from "./PageHeader.jsx";
 
 const { Content, Footer } = Layout;
 
@@ -20,7 +19,6 @@ export default class Page extends React.Component {
 
     return (
       <Layout className="layout">
-        <PageHeader />
         <Content style={{ padding: "0 50px" }}>
           {this.props.children}
         </Content>
