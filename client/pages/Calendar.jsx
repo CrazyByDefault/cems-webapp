@@ -1,5 +1,4 @@
 import React from "react";
-import moment from "moment";
 import {
   Calendar
 } from "antd";
@@ -12,12 +11,14 @@ class PDFCal extends React.Component {
 
   render() {
     return (
-      <div style={{ width: 300, border: '1px solid #d9d9d9', borderRadius: 4, margin: "15px 15px 10px 10px" }}>
+      <div style={{
+        width: 300, border: "1px solid #d9d9d9", borderRadius: 4, margin: "15px 15px 10px 10px"
+      }}>
         <Calendar
           fullscreen={false}
           onSelect={(d) => {
-            console.log(d.format("YYYY-MM-DD") + ".pdf");
-            this.setState({ url: d.format("YYYY-MM-DD") + ".pdf", dl: true });
+            console.log(`${d.format("YYYY-MM-DD")}.pdf`);
+            this.setState({ url: `${d.format("YYYY-MM-DD")}.pdf`, dl: true });
           }}
           onPanelChange={(v, m) => {
             console.log(v, m);

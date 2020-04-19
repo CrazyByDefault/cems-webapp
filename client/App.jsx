@@ -6,6 +6,7 @@ import "antd/dist/antd.min.css";
 import PrivateRoute from "./helpers/PrivateRoutes.jsx";
 import Page from "./components/site/Page.jsx";
 import Graph from "./pages/Graph.jsx";
+import Calendar from "./pages/Calendar.jsx";
 
 class App extends Component {
   render() {
@@ -15,7 +16,7 @@ class App extends Component {
         <Router>
           <Switch>
             <Route exact path="/" component={Graph} />
-            <PrivateRoute exact path="/privateGraphs" component={Graph} />
+            <PrivateRoute exact path="/calendar" component={Calendar} />
           </Switch>
         </Router>
       </Page>
