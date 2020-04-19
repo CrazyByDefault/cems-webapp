@@ -10,7 +10,6 @@ export default class Page extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      sex: false
     };
   }
 
@@ -22,7 +21,7 @@ export default class Page extends React.Component {
         <Content style={{ padding: "0 50px" }}>
           {this.props.children}
         </Content>
-        <Footer style={{ textAlign: "center" }}>Thinking Ninja ©2019</Footer>
+        <Footer style={{ textAlign: "center" }}>CEMS IITH 2020</Footer>
       </Layout>
     );
   }
