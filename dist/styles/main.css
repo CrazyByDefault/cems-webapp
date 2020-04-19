@@ -1,0 +1,7 @@
+.ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon {
+	color: green !important;
+}
+
+.ant-steps-dot .ant-steps-item-content {
+	width: auto !important;
+}
