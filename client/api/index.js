@@ -44,7 +44,7 @@ function fetchMeterDetail(cb, meterId, block) {
     });
 }
 
-function fetchBlockTotal(cb, meterId, block) {
+function fetchBlockTotal(cb) {
   Request.get("/api/meter/blocktotal")
     .end((e, res) => {
       cb(e, res.body.data);
