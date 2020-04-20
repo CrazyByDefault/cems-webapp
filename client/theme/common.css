@@ -1,10 +1,45 @@
 .login-form-forgot {
-  float: right;
+	float: right;
 }
 .login-form-button {
-  width: 100%;
+	width: 100%;
 }
 
 .expand {
 	min-height: 100vh;
+}
+
+.wrapper {
+	display: grid;
+	grid-gap: 10px;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	grid-template-areas: "a1 a2 a3 a4"
+	"a5 a6 a7 a8"
+	"a9 a10 a11 a12"
+	"a13 a14 a15 a16";
+	background-color: #fff;
+	color: #444;
+}
+
+.a1 {
+	grid-column-start: 2;
+	grid-column-start: 4;
+}
+
+.tr {
+	align-content: center;
+}
+
+table {
+	padding-top: 20px;
+}
+
+table td {
+	text-align: center;
+	padding: 20px;
+}
+
+p:hover {
+	background-color: #8a95d2;
 }
