@@ -74,7 +74,8 @@ app.use((req, res, next) => {
 /*
  * Binding Routes
  */
-app.use('/api', AuthAccessToken, TempRoutes);
+// app.use('/api', AuthAccessToken, TempRoutes);
+app.use('/api', TempRoutes);
 
 /**
  * @@ TODO

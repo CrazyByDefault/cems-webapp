@@ -18,6 +18,10 @@ import {
 
 import options from "../data/pannel_cascade";
 
+import {
+  fetchLoginURL
+} from "../api/index";
+
 const dateFormatter = item => moment(item).format("HH:mm");
 const timeFormatter = item => moment(item).format("DD-MM HH:mm:ss");
 
@@ -69,6 +73,20 @@ class Graph extends ReactQueryParams {
 
   componentWillMount() {
     // this._refreshData();
+    this._fetchWorkers();
+  }
+
+  _fetchWorkers() {
+    fetchLoginURL((err, res) => {
+      if (!err) {
+        console.log("::", res);
+        // this.setState({
+        //   workersList: res
+        // });
+      } else {
+        console.log("Error: ", err);
+      }
+    });
   }
 
   _refreshData() {

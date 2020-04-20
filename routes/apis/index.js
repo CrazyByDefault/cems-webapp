@@ -80,5 +80,49 @@ router.post('/auth/login',
   }
 );
 
+router.get('/auth/login',
+  (req, res) => {
+    Request
+      .get(`${apiURL}auth/login`)
+      .end((err, response) => {
+        res.json(response.body);
+      });
+  }
+);
+
+router.get('/auth/google/callback',
+  (req, res) => {
+    Request
+      .post(`${apiURL}auth/login`)
+      .send({
+        code: req.query.code
+      })
+      .end((err, response) => {
+        res.json(response.body);
+      });
+  }
+);
+
+router.post('/meter/',
+  (req, res) => {
+    Request
+      .get(`${apiURL}meter/`)
+      .query({ meterId: req.body.meterId, block: res.body.block})
+      .end((err, response) => {
+        res.json(response.body);
+      });
+  }
+);
+
+router.get('/meter/blocktotal',
+  (req, res) => {
+    Request
+      .get(`${apiURL}meter/blocktotal`)
+      .end((err, response) => {
+        res.json(response.body);
+      });
+  }
+);
+
 
 module.exports = router;
