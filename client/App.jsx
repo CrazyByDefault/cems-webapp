@@ -6,7 +6,7 @@ import "antd/dist/antd.min.css";
 import PrivateRoute from "./helpers/PrivateRoutes.jsx";
 import Page from "./components/site/Page.jsx";
 // import Graph from "./pages/Graph.jsx";
-import Home from "./pages/Home.jsx";
+import Home from "./pages/Home";
 import Calendar from "./pages/Calendar.jsx";
 
 class App extends Component {

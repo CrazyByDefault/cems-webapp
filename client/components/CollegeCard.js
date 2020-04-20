@@ -1,6 +1,20 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
 
 class CollegeCard extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      redirect: false
+    };
+
+    this.redirToUrl = this.redirToUrl.bind(this);
+  }
+
+  redirToUrl = (url) => {
+    this.setState({ redirect: true, redirUrl: `${this.props.urlPrefix}/${url}` });
+  }
+
   render() {
     return (
       <div
@@ -9,58 +23,47 @@ class CollegeCard extends React.Component {
           paddingTop: "20px"
         }}
       >
-        <a href="http://cems.iith.ac.in/iith/iithoverview.html">
-          {" "}
-          <img src="iith.png" width="30%" />{" "}
-        </a>
+        {
+          this.state.redirect ? <Redirect to={this.state.redirUrl} /> : null
+        }
+        <img src={`/img/${this.props.urlPrefix}.png`} width="30%" onClick={() => this.redirToUrl("overview")} />
         <div
           className="w3-card  w3-hover-shadow"
           style={{
             paddingTop: "10px"
           }}
         >
-          <header className="w3-container w3-metro-dark-red">
-            <h4>Indian Institute of Technolgy Hyderabad</h4>
+          <header className={`w3-container ${this.props.headerBgColor}`}>
+            <h4>{ this.props.name }</h4>
           </header>
-          <div className="w3-container w3-metro-orange">
-            <p>
-              <a href="http://cems.iith.ac.in/iith/iithoverview.html">
-                <i
-                  className="fa fa-1x fa-globe"
-                  aria-hidden="true"
-                  style={{
-                    paddingTop: "8px"
-                  }}
-                />{" "}
-                Overview
-              </a>
+
+          <div className={`w3-container ${this.props.bgColor}`}>
+            <p onClick={() => this.redirToUrl("overview")}>
+              <i
+                className="fa fa-1x fa-globe"
+                aria-hidden="true"
+                style={{
+                  paddingTop: "8px"
+                }}
+              />
+              Overview
             </p>
-            <p>
-              <a href="http://cems.iith.ac.in/iith/iithmicrogrid.html">
-                <i className="fa fa-plug" aria-hidden="true" /> Mircrogrid
-              </a>
+            <p onClick={() => this.redirToUrl("microgrid")}>
+              <i className="fa fa-plug" aria-hidden="true" /> Mircrogrid
             </p>
-            <p>
-              <a href="http://cems.iith.ac.in/iith/iithkeyinfo.html">
-                <i className="fa fa-key" aria-hidden="true" /> Key Info
-              </a>
+            <p onClick={() => this.redirToUrl("keyinfo")}>
+              <i className="fa fa-key" aria-hidden="true" /> Key Info
             </p>
-            <p>
-              <a href="http://cems.iith.ac.in/iith/realtime">
-                <i className="fa fa-clock-o" aria-hidden="true" /> Realtime data
-              </a>
+            <p onClick={() => this.redirToUrl("realtime")}>
+              <i className="fa fa-clock-o" aria-hidden="true" /> Realtime data
             </p>
-            <p>
-              <a href="http://cems.iith.ac.in/iith/iithhistory.html">
-                <i className="fa fa-database" aria-hidden="true" /> Historical
+            <p onClick={() => this.redirToUrl("history")}>
+              <i className="fa fa-database" aria-hidden="true" /> Historical
                 data
-              </a>
             </p>
-            <p>
-              <a href="http://cems.iith.ac.in/iith/iithcasestudies.html">
-                <i className="fa fa-lightbulb-o" aria-hidden="true" /> Case
+            <p onClick={() => this.redirToUrl("casestudies")}>
+              <i className="fa fa-lightbulb-o" aria-hidden="true" /> Case
                 Studies
-              </a>
             </p>
           </div>
         </div>
