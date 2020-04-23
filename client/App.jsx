@@ -18,7 +18,7 @@ class App extends Component {
       <Page>
         <Router>
           <Switch>
-            <Route exact path="/" component={Home} />
+            <PrivateRoute exact path="/" component={Home} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/iith/realtime" component={IITHRealtime} />
             <Route exact path="/iith/graph" component={Graph} />

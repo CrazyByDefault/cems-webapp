@@ -24,19 +24,19 @@ const PrivateRoutes = ({ component: Component, ...rest }) => {
     authorised = true;
   } else {
     console.log("not authorised");
-    redirectTo = "/";
+    redirectTo = "/login";
   }
 
-  if (!rest.path.includes(cookie.defaultPage)) {
-    authorised = false;
-    redirectTo = cookie.defaultPage;
-  }
+  // if (!rest.path.includes(cookie.defaultPage)) {
+  //   authorised = false;
+  //   redirectTo = cookie.defaultPage;
+  // }
 
-  if (rest.path === "/man" || redirectTo === "/man") {
-    if (!cookie.stageTypeId) {
-      console.log("invalid state: no stageTypeId for shopfloor account");
-    }
-  }
+  // if (rest.path === "/man" || redirectTo === "/man") {
+  //   if (!cookie.stageTypeId) {
+  //     console.log("invalid state: no stageTypeId for shopfloor account");
+  //   }
+  // }
 
   // if (rest.path === "/des" || redirectTo === "/des") {
   //   if (!cookie.workerId) {

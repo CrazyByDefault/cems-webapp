@@ -36,6 +36,12 @@ function fetchLoginURL(cb) {
   });
 }
 
+function login(cb, code) {
+  Request.post("/api/auth/login").send({ code }).end((e, res) => {
+    cb(e, res.body);
+  });
+}
+
 function fetchMeterDetail(cb, meterId, block) {
   Request.post("/api/meter/")
     .send({ meterId, block })
@@ -54,6 +60,7 @@ function fetchBlockTotal(cb) {
 export {
   createToken,
   fetchLoginURL,
+  login,
   fetchMeterDetail,
   fetchBlockTotal
 };
