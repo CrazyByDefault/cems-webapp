@@ -1,9 +1,37 @@
 import React from "react";
 import Header from "../components/IITHHeader";
+import {
+  fetchBlockTotal
+} from "../api";
 
 class IITHRealtime extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      blocksData: []
+    };
+    this.requestPlot = this.requestPlot.bind(this);
+  }
+
   componentDidMount() {
-    console.log("CPD");
+    fetchBlockTotal((err, data) => {
+      if (err) {
+        console.log(err);
+      } else {
+        this.setState({ blocksData: data });
+      }
+    });
+  }
+
+  requestPlot = () => {
+    fetchBlockTotal((err, data) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(data);
+        this.setState({ blocksData: data });
+      }
+    });
   }
 
   render() {
@@ -101,7 +129,7 @@ class IITHRealtime extends React.Component {
                     Block <br /> <font size={6}> A </font>
                   </td>
                   <td colSpan={3}>Total Power Consumption in kW</td>
-                  <td id="atot" onClick="request_plot(this)">
+                  <td id="atot" onClick={this.requestPlot(this)}>
 
                   </td>
                 </tr>
@@ -141,8 +169,8 @@ class IITHRealtime extends React.Component {
                 </tr>
                 <tr>
                   <td>7th Floor</td>
-                  <td id="r30" onClick="request_plot(this)" />
-                  <td id="r31" onClick="request_plot(this)" />
+                  <td id="r30" onClick={this.requestPlot(this)} />
+                  <td id="r31" onClick={this.requestPlot(this)} />
                   <td id="r21" />
                   <td id="r22" />
                 </tr>
