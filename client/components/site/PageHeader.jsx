@@ -18,6 +18,11 @@ import {
   Brightness4 as Brightness4Icon
 } from "@material-ui/icons";
 
+import {
+  makeStyles
+} from "@material-ui/core/styles";
+
+
 class PageHeader extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -64,10 +69,15 @@ class PageHeader extends React.Component {
     // const handleChange = (event) => {
     //   setAuth(event.target.checked);
     // };
+    const classes = makeStyles((theme) => ({
+      appBar: {
+        zIndex: theme.zIndex.drawer + 1,
+      }
+    }));
     return (
-      <AppBar position="static">
+      <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          <IconButton edge="start" color="inherit" aria-label="menu" onClick={this.props.toggleMenu}>
+          <IconButton edge="start" color="inherit" aria-label="menu" onClick={this.props.toggleNavDrawer}>
             <MenuIcon />
           </IconButton>
           <Typography variant="h5" align="center" style={{ flexGrow: 1 }}>
@@ -103,7 +113,7 @@ class PageHeader extends React.Component {
               open={Boolean(this.state.anchorEl)}
               onClose={this.handleClose}
             >
-              <MenuItem onClick={this.props.toggleDarkMode}>
+              <MenuItem onClick={() => { this.props.toggleDarkMode(); this.handleClose(); }}>
                 <ListItemIcon>
                   <Brightness4Icon fontSize="Medium" />
                 </ListItemIcon>

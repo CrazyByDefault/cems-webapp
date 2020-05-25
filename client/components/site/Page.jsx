@@ -3,11 +3,19 @@ import PropTypes from "prop-types";
 
 import {
   CssBaseline,
+  Toolbar,
   Box
 } from "@material-ui/core";
 
-import { createMuiTheme, ThemeProvider, responsiveFontSizes } from "@material-ui/core/styles";
+import {
+  // makeStyles,
+  createMuiTheme,
+  ThemeProvider,
+  responsiveFontSizes
+} from "@material-ui/core/styles";
+
 import PageHeader from "./PageHeader.jsx";
+import NavDrawer from "./NavDrawer.jsx";
 
 export default class Page extends React.Component {
   constructor(props, context) {
@@ -23,9 +31,11 @@ export default class Page extends React.Component {
         typography: {
           fontFamily: "Roboto"
         }
-      }
+      },
+      isDrawerOpen: false
     };
     this._handleToggleTheme = this._handleToggleTheme.bind(this);
+    this._handleToggleNavDrawer = this._handleToggleNavDrawer.bind(this);
   }
 
   _handleToggleTheme() {
@@ -42,16 +52,33 @@ export default class Page extends React.Component {
     }
   }
 
+  _handleToggleNavDrawer() {
+    const { isDrawerOpen } = this.state;
+    // (theme.palette.type === "light")
+    if (isDrawerOpen) {
+      this.setState({
+        isDrawerOpen: false
+      });
+    } else {
+      this.setState({
+        isDrawerOpen: true
+      });
+    }
+  }
+
   render() {
     console.log("Page.jsx");
 
     let muiTheme = createMuiTheme(this.state.theme);
     muiTheme = responsiveFontSizes(muiTheme);
     console.log(muiTheme);
+
     return (
       <ThemeProvider theme={muiTheme}>
         <CssBaseline/>
-        <PageHeader toggleDarkMode={this._handleToggleTheme}/>
+        <PageHeader toggleDarkMode={this._handleToggleTheme} toggleNavDrawer={this._handleToggleNavDrawer}/>
+        <Toolbar/>
+        <NavDrawer open={this.state.isDrawerOpen} closeDrawer={this._handleToggleNavDrawer}/>
         <Box m={2}>
           {this.props.children}
         </Box>
