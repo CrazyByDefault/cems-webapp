@@ -38,17 +38,27 @@ export default class Page extends React.Component {
     this._handleToggleNavDrawer = this._handleToggleNavDrawer.bind(this);
   }
 
+  componentDidMount() {
+    const variable = localStorage.getItem("themeKey") || "";
+    const { theme } = this.state;
+    if (variable !== "") {
+      this.setState({
+        theme: { ...theme, palette: { ...theme.palette, type: variable } }
+      });
+    }
+  }
+
   _handleToggleTheme() {
     const { theme } = this.state;
     // (theme.palette.type === "light")
     if (theme.palette.type === "light") {
       this.setState({
         theme: { ...theme, palette: { ...theme.palette, type: "dark" } }
-      });
+      }, localStorage.setItem("themeKey", "dark"));
     } else {
       this.setState({
         theme: { ...theme, palette: { ...theme.palette, type: "light" } }
-      });
+      }, localStorage.setItem("themeKey", "light"));
     }
   }
 
