@@ -1,9 +1,22 @@
 import React from "react";
-import {
-  Layout, Menu
-} from "antd";
 
-const { Header } = Layout;
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Menu,
+  MenuItem,
+  ListItemIcon,
+  ListItemText,
+  Hidden
+} from "@material-ui/core";
+
+import {
+  Menu as MenuIcon,
+  AccountCircle,
+  Brightness4 as Brightness4Icon
+} from "@material-ui/icons";
 
 class PageHeader extends React.Component {
   constructor(props, context) {
@@ -12,7 +25,7 @@ class PageHeader extends React.Component {
       .split(";")
       .reduce((res, c) => {
         const [key, val] = c.trim().split("=").map(decodeURIComponent);
-        const allNumbers = str => /^\d+$/.test(str);
+        const allNumbers = (str) => /^\d+$/.test(str);
         try {
           return Object.assign(res, { [key]: allNumbers(val) ? val : JSON.parse(val) });
         } catch (e) {
@@ -20,10 +33,8 @@ class PageHeader extends React.Component {
         }
       }, {});
     this.state = {
-      logged: cookie.CAT || cookie.UAT,
-      metadata: {
-        sex: "male"
-      }
+      logged: cookie.UAT,
+      anchorEl: null
     };
 
     this.logout = this.logout.bind(this);
@@ -36,31 +47,73 @@ class PageHeader extends React.Component {
     window.location.replace(`${window.location.origin}`);
   };
 
+  handleMenu = (event) => {
+    this.setState({
+      anchorEl: event.currentTarget
+    });
+  };
+
+  handleClose = () => {
+    this.setState({
+      anchorEl: null
+    });
+  };
+
   render() {
-    const logoStyle = {
-      width: "120px",
-      height: "53px",
-      background: "rgba(255, 255, 255, 0.2)",
-      backgroundImage: "url('/img/logo.jpg')",
-      margin: "13px 32px 14px 0",
-      float: "left",
-    };
+    // const [auth, setAuth] = React.useState(true);
+    // const handleChange = (event) => {
+    //   setAuth(event.target.checked);
+    // };
     return (
-      <Header style={{ height: "80px", background: "#ffffff" }}>
-        <a href="/"><div style={logoStyle} /></a>
-        <Menu
-          theme="light"
-          mode="horizontal"
-          style={{ lineHeight: "80px", float: "right" }}
-          onClick={this.logout}
-        >
-          {
-            window.location.pathname !== "/"
-              ? <Menu.Item key="logout">Logout</Menu.Item>
-              : <Menu.Item key="login">Login</Menu.Item>
-          }
-        </Menu>
-      </Header>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton edge="start" color="inherit" aria-label="menu" onClick={this.props.toggleMenu}>
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h5" align="center" style={{ flexGrow: 1 }}>
+            <Hidden smDown>
+              Campus Energy Management System (CEMS)
+            </Hidden>
+            <Hidden mdUp>
+              CEMS
+            </Hidden>
+          </Typography>
+          <div>
+            <IconButton
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={this.handleMenu}
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={this.state.anchorEl}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={Boolean(this.state.anchorEl)}
+              onClose={this.handleClose}
+            >
+              <MenuItem onClick={this.props.toggleDarkMode}>
+                <ListItemIcon>
+                  <Brightness4Icon fontSize="Medium" />
+                </ListItemIcon>
+                <ListItemText primary="Toggle DarkTheme" />
+              </MenuItem>
+              <MenuItem onClick={this.handleClose}>My account</MenuItem>
+            </Menu>
+          </div>
+        </Toolbar>
+      </AppBar>
     );
   }
 }

@@ -40,7 +40,13 @@
     "react/no-unescaped-entities": [0],
     "react/sort-comp": [0],
     "react/prop-types": [1],
-    "no-nested-ternary": [0]
+    "no-nested-ternary": [0],
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": ["@material-ui/*/*/*", "!@material-ui/core/test-utils/*"]
+      }
+    ]
   },
   "extends": ["eslint:recommended", "plugin:react/recommended", "airbnb-base"]
 }

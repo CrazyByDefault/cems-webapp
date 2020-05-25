@@ -1,28 +1,61 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { Layout } from "antd";
+import {
+  CssBaseline,
+  Box
+} from "@material-ui/core";
 
-const { Content, Footer } = Layout;
-
+import { createMuiTheme, ThemeProvider, responsiveFontSizes } from "@material-ui/core/styles";
+import PageHeader from "./PageHeader.jsx";
 
 export default class Page extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
+      theme: {
+        palette: {
+          primary: {
+            main: "#ed7d31"
+          },
+          type: "light",
+        },
+        typography: {
+          fontFamily: "Roboto"
+        }
+      }
     };
+    this._handleToggleTheme = this._handleToggleTheme.bind(this);
+  }
+
+  _handleToggleTheme() {
+    const { theme } = this.state;
+    // (theme.palette.type === "light")
+    if (theme.palette.type === "light") {
+      this.setState({
+        theme: { ...theme, palette: { ...theme.palette, type: "dark" } }
+      });
+    } else {
+      this.setState({
+        theme: { ...theme, palette: { ...theme.palette, type: "light" } }
+      });
+    }
   }
 
   render() {
     console.log("Page.jsx");
 
+    let muiTheme = createMuiTheme(this.state.theme);
+    muiTheme = responsiveFontSizes(muiTheme);
+    console.log(muiTheme);
     return (
-      <Layout className="layout">
-        <Content style={{ padding: "0 50px" }}>
+      <ThemeProvider theme={muiTheme}>
+        <CssBaseline/>
+        <PageHeader toggleDarkMode={this._handleToggleTheme}/>
+        <Box m={2}>
           {this.props.children}
-        </Content>
-        <Footer style={{ textAlign: "center" }}>CEMS IITH 2020</Footer>
-      </Layout>
+        </Box>
+      </ThemeProvider>
     );
   }
 }
