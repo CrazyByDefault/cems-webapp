@@ -5,8 +5,13 @@ import {
   List,
   ListItem,
   ListItemText,
+  // ListItemIcon,
   Toolbar
 } from "@material-ui/core";
+
+// import {
+//   Home as HomeIcon,
+// } from "@material-ui/icons";
 
 
 class NavDrawer extends React.Component {
@@ -25,11 +30,59 @@ class NavDrawer extends React.Component {
       }, {});
     this.state = {
       logged: cookie.UAT,
-      anchorEl: null,
+      navList: [
+        {
+          text: "Home",
+          url: ""
+        },
+        {
+          text: "About",
+          url: "about"
+        },
+        {
+          text: "Join",
+          url: ""
+        },
+        {
+          text: "Students",
+          url: ""
+        },
+        {
+          text: "Articles",
+          url: ""
+        },
+        {
+          text: "Events",
+          url: ""
+        },
+        {
+          text: "Gallery",
+          url: ""
+        },
+        {
+          text: "Webinars",
+          url: ""
+        },
+        {
+          text: "Downloads",
+          url: ""
+        },
+        {
+          text: "Social",
+          url: ""
+        },
+        {
+          text: "FAQs",
+          url: ""
+        },
+        {
+          text: "Contact",
+          url: ""
+        },
+      ]
     };
 
     this.logout = this.logout.bind(this);
-    this.toggleDrawer = this.toggleDrawer.bind(this);
   }
 
   logout = function () {
@@ -49,10 +102,6 @@ class NavDrawer extends React.Component {
     this.setState({
       anchorEl: null
     });
-  };
-
-  toggleDrawer = () => {
-    this.props.closeDrawer();
   };
 
   _setRedirect(path) {
@@ -80,9 +129,11 @@ class NavDrawer extends React.Component {
             onKeyDown={this.props.closeDrawer}
           >
             <List>
-              <ListItem>
-                <ListItemText primary="Home" onClick={() => { this._setRedirect(""); }} />
-              </ListItem>
+              {this.state.navList.map((item) => (
+                <ListItem button key={item.text}>
+                  <ListItemText primary={item.text} onClick={() => { this._setRedirect(item.url); }} />
+                </ListItem>
+              ))}
             </List>
           </div>
         </SwipeableDrawer>

@@ -96,7 +96,7 @@ class PageHeader extends React.Component {
               onClick={this.handleMenu}
               color="inherit"
             >
-              <AccountCircle />
+              <AccountCircle fontSize="large"/>
             </IconButton>
             <Menu
               id="menu-appbar"
@@ -115,7 +115,7 @@ class PageHeader extends React.Component {
             >
               <MenuItem onClick={() => { this.props.toggleDarkMode(); this.handleClose(); }}>
                 <ListItemIcon>
-                  <Brightness4Icon fontSize="Medium" />
+                  <Brightness4Icon fontSize="default" />
                 </ListItemIcon>
                 <ListItemText primary="Toggle DarkTheme" />
               </MenuItem>
