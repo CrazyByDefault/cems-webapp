@@ -164,22 +164,23 @@ router.post('/meter/',
   }
 );
 
-router.get('/meter/blocktotal',
+router.post('/iith/blocktotal',
   (req, res) => {
     Request
-      .get(`${apiURL}meter/blocktotal`)
+      .get(`${apiURL}iith/block-total`)
+      .query({ block: req.body.block })
       .end((err, response) => {
         res.json(response.body);
       });
   }
 );
 
-router.get('/iith/activePower',
+router.post('/iith/blockActivePower',
   (req, res) => {
     Request
-      .get(`${apiURL}iith/active-power`)
+      .get(`${apiURL}iith/block-active-power`)
+      .query({ block: req.body.block })
       .end((err, response) => {
-        console.log(response.body);
         res.json(response.body);
       });
   }

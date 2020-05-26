@@ -50,15 +50,17 @@ function fetchMeterDetail(cb, meterId, block) {
     });
 }
 
-function fetchBlockTotal(cb) {
-  Request.get("/api/meter/blocktotal")
+function fetchBlockTotal(cb, block) {
+  Request.post("/api/iith/blocktotal")
+    .send({ block })
     .end((e, res) => {
       cb(e, res.body.data);
     });
 }
 
-function fetchIITHActivePower(cb) {
-  Request.get("/api/iith/activePower")
+function fetchIITHBlockActivePower(cb, block) {
+  Request.post("/api/iith/blockActivePower")
+    .send({ block })
     .end((e, res) => {
       cb(e, res.body.data);
     });
@@ -69,5 +71,5 @@ export {
   login,
   fetchMeterDetail,
   fetchBlockTotal,
-  fetchIITHActivePower
+  fetchIITHBlockActivePower
 };

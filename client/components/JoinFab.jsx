@@ -8,10 +8,12 @@ class JoinFab extends Component {
       <Fab
         variant="extended"
         style={{
-          marginRight: "1vh",
-          position: "absolute",
-          bottom: "5vh",
-          right: "2vh"
+          margin: 0,
+          top: "auto",
+          right: 20,
+          bottom: 20,
+          left: "auto",
+          position: "fixed",
         }}
       >
         <AddIcon style={{ margin: "0.7vh" }} />
