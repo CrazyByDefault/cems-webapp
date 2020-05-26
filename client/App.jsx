@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "typeface-roboto";
 import {
   Route, BrowserRouter as Router, Switch
 } from "react-router-dom";
@@ -7,6 +8,7 @@ import Page from "./components/site/Page.jsx";
 // import Graph from "./pages/Graph.jsx";
 // import Login from "./pages/Login.jsx";
 import Home from "./pages/Home.jsx";
+import About from "./pages/About.jsx";
 
 class App extends Component {
   render() {
@@ -16,6 +18,7 @@ class App extends Component {
         <Router>
           <Switch>
             <Route exact path="/" component={Home} />
+            <Route exact path="/about" component={About} />
           </Switch>
         </Router>
       </Page>
