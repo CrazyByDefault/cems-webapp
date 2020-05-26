@@ -7,6 +7,7 @@ import Page from "./components/site/Page.jsx";
 // import Graph from "./pages/Graph.jsx";
 // import Login from "./pages/Login.jsx";
 import Home from "./pages/Home.jsx";
+import IITH from "./pages/IITH.jsx";
 
 class App extends Component {
   render() {
@@ -16,6 +17,7 @@ class App extends Component {
         <Router>
           <Switch>
             <Route exact path="/" component={Home} />
+            <Route exact path="/iith" component={IITH} />
           </Switch>
         </Router>
       </Page>

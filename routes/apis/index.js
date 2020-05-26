@@ -174,5 +174,17 @@ router.get('/meter/blocktotal',
   }
 );
 
+router.get('/iith/activePower',
+  (req, res) => {
+    Request
+      .get(`${apiURL}iith/active-power`)
+      .end((err, response) => {
+        console.log(response.body);
+        res.json(response.body);
+      });
+  }
+);
+
+
 
 module.exports = router;

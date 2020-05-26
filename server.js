@@ -17,7 +17,7 @@ const config = require('./config/app');
 /**
  * imports middlewares
  */
-const AuthAccessToken = require('./middlewares/authAccessToken');
+// const AuthAccessToken = require('./middlewares/authAccessToken');
 
 /**
 * importing Route binding modules
@@ -74,8 +74,8 @@ app.use((req, res, next) => {
 /*
  * Binding Routes
  */
-app.use('/api', AuthAccessToken, TempRoutes);
-// app.use('/api', TempRoutes);
+// app.use('/api', AuthAccessToken, TempRoutes);
+app.use('/api', TempRoutes);
 
 /**
  * @@ TODO

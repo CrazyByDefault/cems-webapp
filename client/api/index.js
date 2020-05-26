@@ -57,10 +57,17 @@ function fetchBlockTotal(cb) {
     });
 }
 
+function fetchIITHActivePower(cb) {
+  Request.get("/api/iith/activePower")
+    .end((e, res) => {
+      cb(e, res.body.data);
+    });
+}
 export {
   createToken,
   fetchLoginURL,
   login,
   fetchMeterDetail,
-  fetchBlockTotal
+  fetchBlockTotal,
+  fetchIITHActivePower
 };
