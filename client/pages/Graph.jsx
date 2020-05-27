@@ -1,185 +1,202 @@
-import React from "react";
-import ReactQueryParams from "react-query-params";
+import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
 import moment from "moment";
-import {
-  Row,
-  Col,
-  Typography
-} from "antd";
-import Request from "superagent";
-import "antd/es/input/style/index.css";
-import "antd/es/select/style/index.css";
-import "antd/es/cascader/style/index.css";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from "react-loader-spinner";
 import {
   LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer
 } from "recharts";
 
-import options from "../data/pannel_cascade";
+import {
+  Typography,
+  // Container,
+  Grid,
+  Paper
+} from "@material-ui/core";
 
 import {
-  fetchLoginURL
+  withStyles
+} from "@material-ui/core/styles";
+
+import BackFab from "../components/BackFab.jsx";
+
+import {
+  fetchPowerForGraph,
+  fetchVoltageForGraph,
+  fetchCurrentForGraph,
+  fetchPhasePowerForGraph,
+  fetchPowerFactorForGraph,
+  fetchCumulativeEnergyForGraph
 } from "../api/index";
 
-const dateFormatter = item => moment(item).format("HH:mm");
-const timeFormatter = item => moment(item).format("DD-MM HH:mm:ss");
 
-const { Title } = Typography;
-
-const apiUrl = "http://d7cc6552.ngrok.io";
-
-class CustomizedAxisTick extends React.Component {
-  render() {
-    const {
-      x, y, payload,
-    } = this.props;
-
-    return (
-      <g transform={`translate(${x},${y})`}>
-        <text x={0} y={0} dy={16} textAnchor="end" fill="#666" transform="rotate(-35)">{dateFormatter(payload.value)}</text>
-      </g>
-    );
+const styles = (theme) => ({
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: "center",
+    color: theme.palette.text.primary,
   }
-}
+});
 
-const CustomTooltip = ({ active, payload, label }) => {
+const dateFormatter = (item) => moment(item).format("HH:mm");
+const timeFormatter = (item) => moment(item).format("DD-MM HH:mm:ss");
+
+const CustomizedAxisTick = ({ x, y, payload }) => {
+  return (
+    <g transform={`translate(${x},${y})`}>
+      <text x={0} y={0} dy={16} textAnchor="end" fill="#666" transform="rotate(-35)">{dateFormatter(payload.value)}</text>
+    </g>
+  );
+};
+
+const CustomTooltip = ({
+  active, payload, label, unit
+}) => {
   if (active) {
+    // console.log(payload);
     return (
-      <div style={{ backgroundColor: "rgba(255, 255, 255, 0.9)" }}>
-        <p className="label">Time: {`${timeFormatter(label)}`}</p>
-        <p className="label">Value: {`${payload[0].value}`}</p>
-      </div>
+      <Paper>
+        <Typography variant="body1" align="center" gutterBottom>Time: {`${timeFormatter(label)}`}</Typography>
+        {payload.map((item) => (
+          <Typography key={item.stroke} variant="body1" align="center" gutterBottom>{parseFloat(item.value).toFixed(4)} {`${unit}`}</Typography>
+        ))}
+      </Paper>
     );
   }
 
   return null;
 };
 
-class Graph extends ReactQueryParams {
+class Graph extends Component {
   constructor(props, context) {
     super(props, context);
-    const value = this.queryParams.panel;
-    if (this.queryParams.panel) {
-      this.state = {
-        activePanel: this.queryParams.panel,
-        autoload: true
-      };
-    } else {
-      this.state = {};
-    }
-    console.log("PARAM", value);
+    this.state = {
+      redirect: false
+    };
   }
 
-  componentWillMount() {
-    // this._refreshData();
-    this._fetchWorkers();
-  }
-
-  _fetchWorkers() {
-    fetchLoginURL((err, res) => {
-      if (!err) {
-        console.log("::", res);
-        // this.setState({
-        //   workersList: res
-        // });
-      } else {
-        console.log("Error: ", err);
-      }
-    });
-  }
-
-  _refreshData() {
-    Request.get(`${apiUrl}`).query(`panel=${this.state.activePanel}`).then((res) => {
-      console.log(res.body);
-      const data = res.body;
-      data.max = Math.max(...res.body.map(o => o.y));
-      data.min = Math.min(...res.body.map(o => o.y));
-      this.setState({ data });
-    });
-    // setTimeout(_refreshData(), 2*1000);
-  }
-
-  _fetchVoltage() {
-    Request.get(`${apiUrl}/voltage`).query(`panel=${this.state.activePanel}`).then((res) => {
-      console.log(res.body);
-      const voltage = res.body;
-
-      const maxR = Math.max(...res.body(o => o.r));
-      const maxY = Math.max(...res.body(o => o.y));
-      const maxB = Math.max(...res.body(o => o.b));
-      voltage.max = Math.max(maxR, maxY, maxB);
-
-      const minR = Math.min(...res.body(o => o.r));
-      const minY = Math.min(...res.body(o => o.y));
-      const minB = Math.min(...res.body(o => o.b));
-      voltage.min = Math.min(minR, minY, minB);
-      this.setState({ voltage });
-    });
-  }
-
-  _fetchCurrent() {
-    Request.get(`${apiUrl}/current`).query(`panel=${this.state.activePanel}`).then((res) => {
-      console.log(res.body);
-      const current = res.body;
-
-      const maxR = Math.max(...res.body(o => o.r));
-      const maxY = Math.max(...res.body(o => o.y));
-      const maxB = Math.max(...res.body(o => o.b));
-      current.max = Math.max(maxR, maxY, maxB);
-
-      const minR = Math.min(...res.body(o => o.r));
-      const minY = Math.min(...res.body(o => o.y));
-      const minB = Math.min(...res.body(o => o.b));
-      current.min = Math.min(minR, minY, minB);
-      this.setState({ current });
-    });
-  }
-
-  _fetchPower() {
-    Request.get(`${apiUrl}/power`).query(`panel=${this.state.activePanel}`).then((res) => {
-      console.log(res.body);
-      const power = res.body;
-
-      const maxR = Math.max(...res.body(o => o.r));
-      const maxY = Math.max(...res.body(o => o.y));
-      const maxB = Math.max(...res.body(o => o.b));
-      power.max = Math.max(maxR, maxY, maxB);
-
-      const minR = Math.min(...res.body(o => o.r));
-      const minY = Math.min(...res.body(o => o.y));
-      const minB = Math.min(...res.body(o => o.b));
-      power.min = Math.min(minR, minY, minB);
-
-      this.setState({ power });
-    });
-  }
-
-  _fetchPF() {
-    Request.get(`${apiUrl}/pf`).query(`panel=${this.state.activePanel}`).then((res) => {
-      console.log(res.body);
-      const pf = res.body;
-      pf.max = 1.25;
-      pf.min = -1.25;
-      this.setState({ pf });
-    });
-  }
-
-  _fetchCE() {
-    Request.get(`${apiUrl}/ce`).query(`panel=${this.state.activePanel}`).then((res) => {
-      console.log(res.body);
-      const ce = res.body;
-      ce.max = Math.max(...res.body.map(o => o.y));
-      ce.min = Math.min(...res.body.map(o => o.y));
-      const ceFinal = ce.map((item, i) => {
-        const newItem = {};
-        newItem.x = item.x;
-        newItem.y = i === 0 ? 0 : item.y - ce[i - 1].y;
-        newItem.row2 = item.row2;
-        return newItem;
+  componentDidMount() {
+    if (this.props.location.state) {
+      this.setState({
+        panel: this.props.location.state
       });
-      this.setState({ ce: ceFinal });
-    });
+      this._fetchData(this.props.location.state);
+    } else {
+      this.setState({
+        redirect: true,
+        redirectTo: "/iith/realtime"
+      });
+    }
+    setInterval(async () => {
+      this._fetchData(this.props.location.state);
+    }, 5 * 1000);
+  }
+
+  _fetchData(panel) {
+    this._fetchActivePower(panel);
+    this._fetchCE(panel);
+    this._fetchVoltage(panel);
+    this._fetchPhasePower(panel);
+    this._fetchCurrent(panel);
+    this._fetchPF(panel);
+  }
+
+  _fetchActivePower(panel) {
+    fetchPowerForGraph((e, res) => {
+      if (!e) {
+        const data = res;
+        data.max = Math.max(...res.map((o) => o.y));
+        data.min = Math.min(...res.map((o) => o.y));
+        this.setState({ data });
+      }
+    }, panel);
+  }
+
+  _fetchVoltage(panel) {
+    fetchVoltageForGraph((e, res) => {
+      if (!e) {
+        const voltage = res;
+
+        const maxR = Math.max(...res.map((o) => o.r));
+        const maxY = Math.max(...res.map((o) => o.y));
+        const maxB = Math.max(...res.map((o) => o.b));
+        voltage.max = Math.max(maxR, maxY, maxB);
+
+        const minR = Math.min(...res.map((o) => o.r));
+        const minY = Math.min(...res.map((o) => o.y));
+        const minB = Math.min(...res.map((o) => o.b));
+        voltage.min = Math.min(minR, minY, minB);
+        this.setState({ voltage });
+      }
+    }, panel);
+  }
+
+  _fetchCurrent(panel) {
+    fetchCurrentForGraph((e, res) => {
+      if (!e) {
+        const current = res;
+
+        const maxR = Math.max(...res.map((o) => o.r));
+        const maxY = Math.max(...res.map((o) => o.y));
+        const maxB = Math.max(...res.map((o) => o.b));
+        current.max = Math.max(maxR, maxY, maxB);
+
+        const minR = Math.min(...res.map((o) => o.r));
+        const minY = Math.min(...res.map((o) => o.y));
+        const minB = Math.min(...res.map((o) => o.b));
+        current.min = Math.min(minR, minY, minB);
+        this.setState({ current });
+      }
+    }, panel);
+  }
+
+  _fetchPhasePower(panel) {
+    fetchPhasePowerForGraph((e, res) => {
+      if (!e) {
+        const power = res;
+
+        const maxR = Math.max(...res.map((o) => o.r));
+        const maxY = Math.max(...res.map((o) => o.y));
+        const maxB = Math.max(...res.map((o) => o.b));
+        power.max = Math.max(maxR, maxY, maxB);
+
+        const minR = Math.min(...res.map((o) => o.r));
+        const minY = Math.min(...res.map((o) => o.y));
+        const minB = Math.min(...res.map((o) => o.b));
+        power.min = Math.min(minR, minY, minB);
+
+        this.setState({ power });
+      }
+    }, panel);
+  }
+
+  _fetchPF(panel) {
+    fetchPowerFactorForGraph((e, res) => {
+      if (!e) {
+        const pf = res;
+        pf.max = 1.25;
+        pf.min = -1.25;
+        this.setState({ pf });
+      }
+    }, panel);
+  }
+
+  _fetchCE(panel) {
+    fetchCumulativeEnergyForGraph((e, res) => {
+      if (!e) {
+        const ce = res;
+        ce.max = Math.max(...res.map((o) => o.y));
+        ce.min = Math.min(...res.map((o) => o.y));
+        const ceFinal = ce.map((item, i) => {
+          const newItem = {};
+          newItem.x = item.x;
+          newItem.y = i === 0 ? 0 : item.y - ce[i - 1].y;
+          newItem.row2 = item.row2;
+          return newItem;
+        });
+        this.setState({ ce: ceFinal });
+      }
+    }, panel);
   }
 
   _renderGraph(dataSource, stroke, unit) {
@@ -198,7 +215,7 @@ class Graph extends ReactQueryParams {
         >
           <XAxis dataKey="x" tickFormatter={dateFormatter} tick={<CustomizedAxisTick />}/>
           <YAxis unit={unit} type="number" domain={[this.state[dataSource].min, this.state[dataSource].max]} scale="linear"/>
-          <Tooltip content={<CustomTooltip />} />
+          <Tooltip content={<CustomTooltip unit={unit} />} />
           <Line dataKey="y" stroke={stroke} dot={false}/>
         </LineChart>
       </ResponsiveContainer>
@@ -221,7 +238,7 @@ class Graph extends ReactQueryParams {
         >
           <XAxis dataKey="x" tickFormatter={dateFormatter} tick={<CustomizedAxisTick />}/>
           <YAxis unit={unit} type="number" domain={[this.state[dataSource].min, this.state[dataSource].max]} scale="linear"/>
-          <Tooltip content={<CustomTooltip />} />
+          <Tooltip content={<CustomTooltip unit={unit} />} />
           <Line dataKey="r" stroke="red" dot={false}/>
           <Line dataKey="y" stroke="green" dot={false}/>
           <Line dataKey="b" stroke="blue" dot={false}/>
@@ -230,78 +247,82 @@ class Graph extends ReactQueryParams {
     );
   }
 
+  _renderRedirect() {
+    if (this.state.redirect) {
+      return <Redirect
+        to={{
+          pathname: this.state.redirectTo
+        }}
+      />;
+    }
+    return null;
+  }
 
   render() {
-    console.log(options);
+    const { classes } = this.props;
+
     return (
       <div>
-        <Row gutter={32}>
-          <Title level={2}>Acad Block A or something</Title>
-          {/* <Cascader
-            options={options}
-            style={{ width: 350, maxWidth: 575, textAlign: "left", marginTop: 10, marginBottom: 15 }}
-            onChange={(value) => {
-              console.log(value[2]);
-              this.setState({ activePanel: value[2], autoload: true }, () => {
-                this._refreshData();
-              });
-            }}
-          /> */}
-        </Row>
-        <Row>
-          <Col span={12}>
-            <Title level={4} style={{ marginTop: 10, marginBottom: 0 }}>Power</Title>
-            {
-              this.state.power ? this._renderGraphMultiline("power", "KWh") : <Loader type="Puff" color="grey" height={40} width={40} />
-            }
-          </Col>
-          <Col span={12}>
-            <Title level={4} style={{ marginTop: 10, marginBottom: 0 }}>Voltage</Title>
-            {
-              this.state.voltage ? this._renderGraphMultiline("voltage", "V") : <Loader type="Puff" color="grey" height={40} width={40} />
-            }
-          </Col>
-          <Col span={12}>
-            <Title level={4} style={{ marginTop: 10, marginBottom: 0 }}>Current</Title>
-            {
-              this.state.current ? this._renderGraphMultiline("current", "A") : <Loader type="Puff" color="grey" height={40} width={40} />
-            }
-          </Col>
-          <Col span={12}>
-            <Title level={4} style={{ marginTop: 10, marginBottom: 0 }}>Energy</Title>
-            {
-              this.state.ce ? this._renderGraph("ce", "DeepPink", "KW") : <Loader type="Puff" color="grey" height={40} width={40} />
-            }
-          </Col>
-          <Col span={12}>
-            <Title level={4} style={{ marginTop: 10, marginBottom: 0 }}>Power Factor</Title>
-            {
-              this.state.pf ? this._renderGraph("pf", "black", "") : <Loader type="Puff" color="grey" height={40} width={40} />
-            }
-          </Col>
-          <Col span={12}>
-            <Title level={4} style={{ marginTop: 10, marginBottom: 0 }}>Total Power</Title>
-            {
-              this.state.data ? this._renderGraph("data", "DarkTurquoise", "KWh") : <Loader type="Puff" color="grey" height={40} width={40} />
-            }
-          </Col>
-        </Row>
+        { this._renderRedirect() }
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Typography variant="h4" align="center" gutterBottom>
+              Realtime Graphs for {this.state.panel}
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Paper className={classes.paper}>
+              <Typography variant="h5">Power</Typography>
+              {
+                this.state.power ? this._renderGraphMultiline("power", "KWh") : <Loader type="Puff" color="grey" height={40} width={40} />
+              }
+            </Paper>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Paper className={classes.paper}>
+              <Typography variant="h5">Voltage</Typography>
+              {
+                this.state.voltage ? this._renderGraphMultiline("voltage", "V") : <Loader type="Puff" color="grey" height={40} width={40} />
+              }
+            </Paper>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Paper className={classes.paper}>
+              <Typography variant="h5">Current</Typography>
+              {
+                this.state.current ? this._renderGraphMultiline("current", "A") : <Loader type="Puff" color="grey" height={40} width={40} />
+              }
+            </Paper>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Paper className={classes.paper}>
+              <Typography variant="h5">Energy</Typography>
+              {
+                this.state.ce ? this._renderGraph("ce", "DeepPink", "KW") : <Loader type="Puff" color="grey" height={40} width={40} />
+              }
+            </Paper>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Paper className={classes.paper}>
+              <Typography variant="h5">Power Factor</Typography>
+              {
+                this.state.pf ? this._renderGraph("pf", "black", "") : <Loader type="Puff" color="grey" height={40} width={40} />
+              }
+            </Paper>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Paper className={classes.paper}>
+              <Typography variant="h5">Total Power</Typography>
+              {
+                this.state.data ? this._renderGraph("data", "DarkTurquoise", "KWh") : <Loader type="Puff" color="grey" height={40} width={40} />
+              }
+            </Paper>
+          </Grid>
+        </Grid>
+        <BackFab history={this.props.history}/>
       </div>
     );
   }
-
-  componentDidMount() {
-    setInterval(async () => {
-      if (!this.state.autoload) return;
-      this._refreshData();
-      this._fetchCE();
-      this._fetchVoltage();
-      this._fetchPower();
-      this._fetchCurrent();
-      this._fetchPF();
-      console.log("POWER", this.state.power);
-    }, 5 * 1000);
-  }
 }
 
-export default Graph;
+export default withStyles(styles)(Graph);

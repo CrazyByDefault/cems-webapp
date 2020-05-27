@@ -8,6 +8,7 @@ const log = logger.child({type: `module:${path.basename(__filename)}`});
 const Request = require('superagent');
 const authConfig = require('../../config/auth');
 const apiURL = authConfig.thinkingNinja.apiURL;
+// const sendError = require("../utils/errorHandle");
 
 const { checkError } = require("../../utils/checkError");
 
@@ -81,6 +82,13 @@ router.get('/auth/login',
       .get(`${apiURL}auth/login`)
       .set("Authorization", req.cookies.CAT || req.CAT)
       .end((err, response) => {
+        const error = checkError(err, response);
+        if (error) {
+          console.log("Error:", error);
+          res.json(error);
+          return;
+        }
+
         console.log(response.body);
         res.json(response.body);
       });
@@ -97,6 +105,13 @@ router.get('/auth/google/callback',
       })
       .end((err, response) => {
         // res.json(response.body);
+        const error = checkError(err, response);
+        if (error) {
+          console.log("Error:", error);
+          res.json(error);
+          return;
+        }
+
         console.log(response.body)
         if (!req.cookies.CAT) {
           console.log("setting cookie", req.CAT);
@@ -129,6 +144,13 @@ router.post('/auth/login',
       .send(req.body)
       .end((err, response) => {
         // res.json(response.body);
+        const error = checkError(err, response);
+        if (error) {
+          console.log("Error:", error);
+          res.json(error);
+          return;
+        }
+
         console.log(response.body)
         if (!req.cookies.CAT) {
           console.log("setting cookie", req.CAT);
@@ -159,20 +181,156 @@ router.post('/meter/',
       .get(`${apiURL}meter/`)
       .query({ meterId: req.body.meterId, block: res.body.block})
       .end((err, response) => {
+        const error = checkError(err, response);
+        if (error) {
+          console.log("Error:", error);
+          res.json(error);
+          return;
+        }
         res.json(response.body);
       });
   }
 );
 
-router.get('/meter/blocktotal',
+router.post('/iith/blocktotal',
   (req, res) => {
     Request
-      .get(`${apiURL}meter/blocktotal`)
+      .get(`${apiURL}iith/block-total`)
+      .query({ block: req.body.block })
       .end((err, response) => {
+        const error = checkError(err, response);
+        if (error) {
+          console.log("Error:", error);
+          res.json(error);
+          return;
+        }
         res.json(response.body);
       });
   }
 );
+
+router.post('/iith/blockActivePower',
+  (req, res) => {
+    Request
+      .get(`${apiURL}iith/block-active-power`)
+      .query({ block: req.body.block })
+      .end((err, response) => {
+        const error = checkError(err, response);
+        if (error) {
+          console.log("Error:", error);
+          res.json(error);
+          return;
+        }
+        console.log(response.body);
+        res.json(response.body);
+      });
+  }
+);
+
+router.post('/iith/graph/power',
+  (req, res) => {
+    Request
+      .get(`${apiURL}iith/graph/power`)
+      .query({ panel: req.body.panel })
+      .end((err, response) => {
+        const error = checkError(err, response);
+        if (error) {
+          console.log("Error:", error);
+          res.json(error);
+          return;
+        }
+        res.json(response.body);
+      });
+  }
+);
+
+router.post('/iith/graph/voltage',
+  (req, res) => {
+    Request
+      .get(`${apiURL}iith/graph/voltage`)
+      .query({ panel: req.body.panel })
+      .end((err, response) => {
+        const error = checkError(err, response);
+        if (error) {
+          console.log("Error:", error);
+          res.json(error);
+          return;
+        }
+        res.json(response.body);
+      });
+  }
+);
+
+router.post('/iith/graph/current',
+  (req, res) => {
+    Request
+      .get(`${apiURL}iith/graph/current`)
+      .query({ panel: req.body.panel })
+      .end((err, response) => {
+        const error = checkError(err, response);
+        if (error) {
+          console.log("Error:", error);
+          res.json(error);
+          return;
+        }
+        res.json(response.body);
+      });
+  }
+);
+
+router.post('/iith/graph/phasePower',
+  (req, res) => {
+    Request
+      .get(`${apiURL}iith/graph/phase-power`)
+      .query({ panel: req.body.panel })
+      .end((err, response) => {
+        const error = checkError(err, response);
+        if (error) {
+          console.log("Error:", error);
+          res.json(error);
+          return;
+        }
+        res.json(response.body);
+      });
+  }
+);
+
+router.post('/iith/graph/powerFactor',
+  (req, res) => {
+    Request
+      .get(`${apiURL}iith/graph/power-factor`)
+      .query({ panel: req.body.panel })
+      .end((err, response) => {
+        const error = checkError(err, response);
+        if (error) {
+          console.log("Error:", error);
+          res.json(error);
+          return;
+        }
+        res.json(response.body);
+      });
+  }
+);
+
+router.post('/iith/graph/cumulativeEnergy',
+  (req, res) => {
+    Request
+      .get(`${apiURL}iith/graph/cumulative-energy`)
+      .query({ panel: req.body.panel })
+      .end((err, response) => {
+        const error = checkError(err, response);
+        if (error) {
+          console.log("Error:", error);
+          res.json(error);
+          return;
+        }
+        res.json(response.body);
+      });
+  }
+);
+
+
+
 
 
 module.exports = router;
