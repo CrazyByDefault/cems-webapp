@@ -9,6 +9,8 @@ import {
   Paper
 } from "@material-ui/core";
 
+import NavBar from "./NavBar.jsx";
+
 const styles = (theme) => ({
   root: {
     flexGrow: 1,
@@ -43,6 +45,7 @@ class Realtime extends Component {
     return (
       <div className={classes.root}>
         <Container>
+          <NavBar/>
           <Grid container spacing={6}>
             <Grid item xs={12}>
               <Typography variant="h2" align="center" gutterBottom>

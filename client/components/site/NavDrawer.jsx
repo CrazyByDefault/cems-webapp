@@ -33,11 +33,11 @@ class NavDrawer extends React.Component {
       navList: [
         {
           text: "Home",
-          url: ""
+          url: "/"
         },
         {
           text: "About",
-          url: "about"
+          url: "/about"
         },
         {
           text: "Join",
@@ -105,7 +105,7 @@ class NavDrawer extends React.Component {
   };
 
   _setRedirect(path) {
-    window.location.replace(`${window.location.origin}/${path}`);
+    window.location.replace(`${window.location.origin}${path}`);
   }
 
   render() {

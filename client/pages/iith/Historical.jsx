@@ -8,33 +8,38 @@ import {
   Typography
 } from "@material-ui/core";
 
+import NavBar from "./NavBar.jsx";
+
 class Historical extends Component {
   render() {
     return (
-      <Grid container>
-        <Grid item xs={12}>
-          <Container style={{ paddingTop: "10vh", paddingBottom: "8vh" }} >
-            <Typography variant="h2" align="center" gutterBottom>
-              Historical Data
-            </Typography>
-          </Container>
+      <Container>
+        <NavBar/>
+        <Grid>
+          <Grid item xs={12}>
+            <Container style={{ paddingTop: "10vh", paddingBottom: "8vh" }} >
+              <Typography variant="h2" align="center" gutterBottom>
+                Historical Data
+              </Typography>
+            </Container>
+          </Grid>
+          <Grid item xs={12}>
+            <Container>
+              <Image
+                src="/img/iithaprmay.png"
+                aspectRatio={(16 / 9)}
+                style={{ margin: "10vh" }}
+              />
+              <br/>
+              <Image
+                src="/img/iith-apr-loadcurve.png"
+                aspectRatio={(16 / 9)}
+                style={{ margin: "10vh" }}
+              />
+            </Container>
+          </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <Container>
-            <Image
-              src="/img/iithaprmay.png"
-              aspectRatio={(16 / 9)}
-              style={{ margin: "10vh" }}
-            />
-            <br/>
-            <Image
-              src="/img/iith-apr-loadcurve.png"
-              aspectRatio={(16 / 9)}
-              style={{ margin: "10vh" }}
-            />
-          </Container>
-        </Grid>
-      </Grid>
+      </Container>
     );
   }
 }

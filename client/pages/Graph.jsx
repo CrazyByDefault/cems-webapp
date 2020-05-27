@@ -58,7 +58,7 @@ const CustomTooltip = ({
       <Paper>
         <Typography variant="body1" align="center" gutterBottom>Time: {`${timeFormatter(label)}`}</Typography>
         {payload.map((item) => (
-          <Typography key={item.stroke} variant="body1" align="center" gutterBottom>{parseFloat(item.value).toFixed(4)} {`${unit}`}</Typography>
+          <Typography key={item.stroke} variant="body1" align="center" gutterBottom>{item.name}: {parseFloat(item.value).toFixed(4)} {`${unit}`}</Typography>
         ))}
       </Paper>
     );

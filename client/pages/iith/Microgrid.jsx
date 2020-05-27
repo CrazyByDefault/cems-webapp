@@ -8,26 +8,31 @@ import {
   Typography
 } from "@material-ui/core";
 
+import NavBar from "./NavBar.jsx";
+
 class About extends Component {
   render() {
     return (
-      <Grid container>
-        <Grid item xs={12}>
-          <Container style={{ paddingTop: "10vh", paddingBottom: "8vh" }} >
-            <Typography variant="h2" align="center" gutterBottom>
-              About IITH
-            </Typography>
-          </Container>
+      <Container>
+        <NavBar/>
+        <Grid>
+          <Grid item xs={12}>
+            <Container style={{ paddingTop: "10vh", paddingBottom: "8vh" }} >
+              <Typography variant="h2" align="center" gutterBottom>
+                About IITH
+              </Typography>
+            </Container>
+          </Grid>
+          <Grid item xs={12}>
+            <Container>
+              <Image
+                src="/img/iith-hv-grid.png"
+                aspectRatio={(16 / 9)}
+              />
+            </Container>
+          </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <Container>
-            <Image
-              src="/img/iith-hv-grid.png"
-              aspectRatio={(16 / 9)}
-            />
-          </Container>
-        </Grid>
-      </Grid>
+      </Container>
     );
   }
 }
