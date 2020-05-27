@@ -93,6 +93,7 @@ class CollegeHome extends Component {
               <Paper
                 className={classes.paper}
                 style={{ background: "#4caf50", paddingTop: "4vh", paddingBottom: "4vh" }}
+                onClick={() => { this.redirect(`${this.state.college}/realtime`); }}
               >
                 <Typography variant="h4">
                   RealTime Data
