@@ -4,7 +4,7 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 
-const styles = (theme) => ({
+const styles = () => ({
   root: {
     display: "flex",
   },
@@ -14,19 +14,6 @@ const styles = (theme) => ({
   },
   content: {
     flex: "1 0 auto",
-  },
-  cover: {
-    width: 151,
-  },
-  controls: {
-    display: "flex",
-    alignItems: "center",
-    paddingLeft: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
-  },
-  playIcon: {
-    height: 38,
-    width: 38,
   },
 });
 

@@ -24,11 +24,13 @@ class Historical extends Component {
             <Image
               src="/img/iithaprmay.png"
               aspectRatio={(16 / 9)}
+              style={{ margin: "10vh" }}
             />
             <br/>
             <Image
               src="/img/iith-apr-loadcurve.png"
               aspectRatio={(16 / 9)}
+              style={{ margin: "10vh" }}
             />
           </Container>
         </Grid>
