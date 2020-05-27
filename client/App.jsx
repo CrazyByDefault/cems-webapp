@@ -5,7 +5,7 @@ import {
 } from "react-router-dom";
 // import PrivateRoute from "./helpers/PrivateRoutes.jsx";
 import Page from "./components/site/Page.jsx";
-// import Graph from "./pages/Graph.jsx";
+import Graph from "./pages/Graph.jsx";
 // import Login from "./pages/Login.jsx";
 import Home from "./pages/Home.jsx";
 import IITHBlockARealTime from "./pages/IITHBlockARealTime.jsx";
@@ -20,6 +20,7 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/iith/realtime/Block_A" component={IITHBlockARealTime} />
+            <Route exact path="/iith/realtime/graph/" component={Graph} />
             <Route exact path="/about" component={About} />
           </Switch>
         </Router>

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
 
 import {
   Typography,
@@ -42,7 +43,7 @@ class IITHBlockARealTime extends Component {
     this._fetchData();
     setInterval(async () => {
       this._fetchData();
-    }, 5 * 1000);
+    }, 30 * 1000);
   }
 
   _fetchData() {
@@ -88,15 +89,35 @@ class IITHBlockARealTime extends Component {
   renderCell(panel) {
     const [data, color] = this.getValuetoDisplay(panel);
     return (
-      <TableCell align="center" style={{ background: color }}>
+      <TableCell align="center" style={{ background: color }} onClick={() => { this._setRedirect(panel); }}>
         {data}
       </TableCell>
     );
   }
 
+  _setRedirect(panel) {
+    this.setState({
+      redirect: true,
+      redirectPanel: panel
+    });
+  }
+
+  _renderRedirect() {
+    if (this.state.redirect) {
+      return <Redirect
+        to={{
+          pathname: "/iith/realtime/graph",
+          state: this.state.redirectPanel
+        }}
+      />;
+    }
+    return null;
+  }
+
   render() {
     return (
       <Container>
+        { this._renderRedirect() }
         <Typography variant="h5" align="center" gutterBottom>
           IITH Block A - Realtime
         </Typography>
@@ -110,7 +131,7 @@ class IITHBlockARealTime extends Component {
               </StyledTableRow>
               <StyledTableRow>
                 <TableCell align="center" colSpan={5}>
-                  Data Updated Every 5 seconds
+                  Data Updated Every 30 seconds
                 </TableCell>
               </StyledTableRow>
               <StyledTableRow>

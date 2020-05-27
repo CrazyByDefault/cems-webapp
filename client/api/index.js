@@ -65,11 +65,66 @@ function fetchIITHBlockActivePower(cb, block) {
       cb(e, res.body.data);
     });
 }
+
+function fetchPowerForGraph(cb, panel) {
+  Request.post("/api/iith/graph/power")
+    .send({ panel })
+    .end((e, res) => {
+      cb(e, res.body.data);
+    });
+}
+
+function fetchVoltageForGraph(cb, panel) {
+  Request.post("/api/iith/graph/voltage")
+    .send({ panel })
+    .end((e, res) => {
+      cb(e, res.body.data);
+    });
+}
+
+function fetchCurrentForGraph(cb, panel) {
+  Request.post("/api/iith/graph/current")
+    .send({ panel })
+    .end((e, res) => {
+      cb(e, res.body.data);
+    });
+}
+
+function fetchPhasePowerForGraph(cb, panel) {
+  Request.post("/api/iith/graph/phasePower")
+    .send({ panel })
+    .end((e, res) => {
+      cb(e, res.body.data);
+    });
+}
+
+function fetchPowerFactorForGraph(cb, panel) {
+  Request.post("/api/iith/graph/powerFactor")
+    .send({ panel })
+    .end((e, res) => {
+      cb(e, res.body.data);
+    });
+}
+
+function fetchCumulativeEnergyForGraph(cb, panel) {
+  Request.post("/api/iith/graph/cumulativeEnergy")
+    .send({ panel })
+    .end((e, res) => {
+      cb(e, res.body.data);
+    });
+}
+
 export {
   createToken,
   fetchLoginURL,
   login,
   fetchMeterDetail,
   fetchBlockTotal,
-  fetchIITHBlockActivePower
+  fetchIITHBlockActivePower,
+  fetchPowerForGraph,
+  fetchVoltageForGraph,
+  fetchCurrentForGraph,
+  fetchPhasePowerForGraph,
+  fetchPowerFactorForGraph,
+  fetchCumulativeEnergyForGraph
 };
