@@ -9,6 +9,8 @@ import Page from "./components/site/Page.jsx";
 // import Login from "./pages/Login.jsx";
 import Home from "./pages/Home.jsx";
 import About from "./pages/About.jsx";
+import IITHAbout from "./pages/iith/About.jsx";
+import CollegeHome from "./pages/CollegeHome.jsx";
 
 class App extends Component {
   render() {
@@ -19,6 +21,8 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/about" component={About} />
+            <Route exact path="/:college" component={CollegeHome} />
+            <Route exact path="/iith/about" component={IITHAbout} />
           </Switch>
         </Router>
       </Page>

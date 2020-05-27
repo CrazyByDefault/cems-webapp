@@ -82,7 +82,7 @@ class PageHeader extends React.Component {
           </IconButton>
           <Typography variant="h5" align="center" style={{ flexGrow: 1 }}>
             <Hidden smDown>
-              Campus Energy Management System (CEMS)
+              Campus Energy Monitoring System (CEMS)
             </Hidden>
             <Hidden mdUp>
               CEMS

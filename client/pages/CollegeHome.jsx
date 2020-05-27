@@ -9,8 +9,6 @@ import {
   // Container
 } from "@material-ui/core";
 
-import JoinFab from "../components/JoinFab.jsx";
-
 const styles = (theme) => ({
   root: {
     flexGrow: 1,
@@ -23,16 +21,12 @@ const styles = (theme) => ({
   }
 });
 
-class Home extends Component {
+class CollegeHome extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      college: this.props.match.params.college
     };
-
-    // this.redirect = this.redirect.bind(this);
-  }
-
-  componentDidMount() {
   }
 
   redirect(url) {
@@ -47,17 +41,17 @@ class Home extends Component {
         <Grid container spacing={6}>
           <Grid item xs={12}>
             <Typography variant="h2" align="center" gutterBottom>
-              Campus Energy Monitoring System (CEMS)
+              {`${this.state.college.toUpperCase()} Home Page`}
             </Typography>
           </Grid>
           <Grid item xs={6} md={3}>
             <Paper
               className={classes.paper}
               style={{ background: "orange", paddingTop: "4vh", paddingBottom: "4vh" }}
-              onClick={() => { this.redirect("iith"); }}
+              onClick={() => { this.redirect(`${this.state.college}/about`); }}
             >
               <Typography variant="h4">
-                IITH
+                About <br/>
               </Typography>
             </Paper>
           </Grid>
@@ -65,10 +59,9 @@ class Home extends Component {
             <Paper
               className={classes.paper}
               style={{ background: "#03a9f4", paddingTop: "4vh", paddingBottom: "4vh" }}
-              onClick={() => { this.redirect("vvit"); }}
             >
               <Typography variant="h4">
-                VVIT
+                Campus Microgrid
               </Typography>
             </Paper>
           </Grid>
@@ -76,10 +69,9 @@ class Home extends Component {
             <Paper
               className={classes.paper}
               style={{ background: "#4db6ac", paddingTop: "4vh", paddingBottom: "4vh" }}
-              onClick={() => { this.redirect("ouce"); }}
             >
               <Typography variant="h4">
-                OUCE
+                Student Projects
               </Typography>
             </Paper>
           </Grid>
@@ -87,10 +79,9 @@ class Home extends Component {
             <Paper
               className={classes.paper}
               style={{ background: "#d4e157", paddingTop: "4vh", paddingBottom: "4vh" }}
-              onClick={() => { this.redirect("gnits"); }}
             >
               <Typography variant="h4">
-                GNITS
+                Case Studies
               </Typography>
             </Paper>
           </Grid>
@@ -98,10 +89,9 @@ class Home extends Component {
             <Paper
               className={classes.paper}
               style={{ background: "#4caf50", paddingTop: "4vh", paddingBottom: "4vh" }}
-              onClick={() => { this.redirect("pvpsit"); }}
             >
               <Typography variant="h4">
-                PVPSIT
+                RealTime Data
               </Typography>
             </Paper>
           </Grid>
@@ -109,48 +99,13 @@ class Home extends Component {
             <Paper
               className={classes.paper}
               style={{ background: "#4fc3f7", paddingTop: "4vh", paddingBottom: "4vh" }}
-              onClick={() => { this.redirect("rvrjc"); }}
             >
               <Typography variant="h4">
-                RVRJC
-              </Typography>
-            </Paper>
-          </Grid>
-          <Grid item xs={6} md={3}>
-            <Paper
-              className={classes.paper}
-              style={{ background: "#795548", paddingTop: "4vh", paddingBottom: "4vh" }}
-              onClick={() => { this.redirect("bvrit-hyd"); }}
-            >
-              <Typography variant="h4">
-                BVRIT Hyderabad
-              </Typography>
-            </Paper>
-          </Grid>
-          <Grid item xs={6} md={3}>
-            <Paper
-              className={classes.paper}
-              style={{ background: "#01579b", paddingTop: "4vh", paddingBottom: "4vh" }}
-              onClick={() => { this.redirect("svce"); }}
-            >
-              <Typography variant="h4">
-                SVCE
-              </Typography>
-            </Paper>
-          </Grid>
-          <Grid item xs={6} md={3}>
-            <Paper
-              className={classes.paper}
-              style={{ background: "#9fa8da", paddingTop: "4vh", paddingBottom: "4vh" }}
-              onClick={() => { this.redirect("bvrit-narsapur"); }}
-            >
-              <Typography variant="h4">
-                BVRIT Narsapur
+                Historical Data
               </Typography>
             </Paper>
           </Grid>
         </Grid>
-        <JoinFab />
         {
           this.state.redirect ? <Redirect to={this.state.redirect} /> : null
         }
@@ -159,4 +114,4 @@ class Home extends Component {
   }
 }
 
-export default withStyles(styles)(Home);
+export default withStyles(styles)(CollegeHome);
