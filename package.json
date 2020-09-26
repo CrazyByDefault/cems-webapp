@@ -42,6 +42,7 @@
     "query-string": "^6.12.1",
     "react": "16.13.1",
     "react-dom": "^16.13.1",
+    "react-google-slides": "^2.0.0",
     "react-loader-spinner": "^3.1.14",
     "react-query-params": "^1.0.9",
     "react-router-dom": "^5.2.0",

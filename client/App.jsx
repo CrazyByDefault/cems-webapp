@@ -7,7 +7,8 @@ import {
 import Page from "./components/site/Page.jsx";
 import Graph from "./pages/Graph.jsx";
 // import Login from "./pages/Login.jsx";
-import Home from "./pages/Home.jsx";
+import Landing from "./pages/Landing.jsx";
+import CollegesHome from "./pages/Home.jsx";
 import IITHBlockARealTime from "./pages/IITHBlockARealTime.jsx";
 import About from "./pages/About.jsx";
 import IITHAbout from "./pages/iith/About.jsx";
@@ -25,8 +26,9 @@ class App extends Component {
       <Page>
         <Router>
           <Switch>
-            <Route exact path="/" component={Home} />
+            <Route exact path="/" component={Landing} />
             <Route exact path="/about" component={About} />
+            <Route exact path="/colleges" component={CollegesHome} />
             <Route exact path="/:college" component={CollegeHome} />
             <Route exact path="/iith/about" component={IITHAbout} />
             <Route exact path="/iith/microgrid" component={IITHMicrogrid} />

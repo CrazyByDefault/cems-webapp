@@ -42,7 +42,7 @@ class CollegeHome extends Component {
           <Grid container spacing={6}>
             <Grid item xs={12}>
               <Typography variant="h2" align="center" gutterBottom>
-                {`${this.state.college.toUpperCase()} Home Page`}
+                {`CEMS@${this.state.college.toUpperCase()}`}
               </Typography>
             </Grid>
             <Grid item xs={6} md={3}>

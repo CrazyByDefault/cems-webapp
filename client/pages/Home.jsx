@@ -45,7 +45,7 @@ class Home extends Component {
     return (
       <div className={classes.root}>
         <Container>
-          <Grid container spacing={6}>
+          <Grid container spacing={3}>
             <Grid item xs={12}>
               <Typography variant="h2" align="center" gutterBottom>
                 Campus Energy Monitoring System (CEMS)
